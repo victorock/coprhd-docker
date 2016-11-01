@@ -2,8 +2,6 @@
 
 The idea behind the creation of this repository is to easily install CoprHD as container.
 
-Autobuild: 01NOV2016
-
 ## Architecture
 
 Systemd is used inside of containers to start/stop CoprHD services.
@@ -16,7 +14,7 @@ Systemd is used inside of containers to start/stop CoprHD services.
 
 ### Howto
 
-- docker run --net=host -ti --privileged -v /data/coprhd1:/data:rw --name coprhd1 -h coprhd1 -d coprhd:controller
+- docker run --net=host -ti --privileged -v /data/coprhd1:/data:rw --name coprhd1 -h coprhd1 -d coprhd-controller:latest
 
 ### Content and Scripting:
 
