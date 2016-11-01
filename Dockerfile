@@ -82,7 +82,6 @@ RUN zypper --non-interactive install \
   python-gpgme \
   yum \
   keepalived \
-  sipcalc \
   systemd-sysvinit \
   gcc-c++ \
   libopenssl-devel \
