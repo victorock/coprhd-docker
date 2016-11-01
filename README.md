@@ -14,7 +14,8 @@ Systemd is used inside of containers to start/stop CoprHD services.
 
 ### Howto
 
-- docker run --net=host -ti --privileged -v /data/coprhd1:/data:rw --name coprhd1 -h coprhd1 -d coprhd-controller:latest
+1- docker run --net=host -ti --privileged -v /data/coprhd1:/data:rw --name coprhd1 -h coprhd1 -d coprhd-controller:latest
+2- docker exec -ti coprhd1 /opt/storageos/bin/start
 
 ### Content and Scripting:
 
