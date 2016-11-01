@@ -2,6 +2,8 @@
 
 The idea behind the creation of this repository is to easily install CoprHD as container.
 
+Autobuild: 01NOV2016
+
 ## Architecture
 
 Systemd is used inside of containers to start/stop CoprHD services.

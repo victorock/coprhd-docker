@@ -1,6 +1,6 @@
 # VERSION               0.1
 #
-# Build CoprHD
+# Build CoprHD: 01NOV2016
 FROM opensuse:13.2
 MAINTAINER "Victor da Costa" <victorockeiro@gmail.com>
 
