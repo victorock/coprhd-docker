@@ -96,16 +96,18 @@ WORKDIR /build
 
 ## Bootstrap
 ADD scripts/bootstrap.sh scripts/
+RUN chmod +x scripts/bootstrap.sh
 RUN scripts/bootstrap.sh
 
 ## Build
 ADD scripts/build.sh scripts/
+RUN chmod +x scripts/build.sh
 RUN scripts/build.sh
 
 ## Script tools
 ADD scripts/netconfig.sh /opt/storageos/bin/netconfig
+RUN chmod +x /opt/storageos/bin/netconfig
 ADD scripts/start.sh /opt/storageos/bin/start
+RUN chmod +x /opt/storageos/bin/start
 
-## Config
-##
 CMD ["/bin/systemd"]
