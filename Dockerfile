@@ -15,15 +15,13 @@ ENV COUNT 1
 ## Do all activities from /build
 WORKDIR /build
 
+# Install git and make
+RUN zypper --non-interactive --no-gpg-checks install --details --no-recommends --force-resolution git make
+
 ## Clear unecessary systemd services
 #ADD scripts/clear-systemd.sh scripts/
 #RUN chmod +x scripts/clear-systemd.sh
 #RUN scripts/clear-systemd.sh
-
-## Bootstrap
-ADD scripts/bootstrap.sh scripts/
-RUN chmod +x scripts/bootstrap.sh
-RUN scripts/bootstrap.sh
 
 ## Build
 ADD scripts/build.sh scripts/
@@ -34,7 +32,6 @@ RUN scripts/build.sh
 ADD scripts/install.sh scripts/
 RUN chmod +x scripts/install.sh
 RUN scripts/install.sh
-
 
 ## Script tools
 ADD scripts/netconfig.sh /opt/storageos/bin/netconfig
