@@ -1,7 +1,7 @@
 # VERSION               0.1
 #
-# Build CoprHD: 01NOV2016
-FROM opensuse:13.2
+# Build CoprHD-Controller: 02NOV2016
+FROM victorock/coprhd:base
 MAINTAINER "Victor da Costa" <victorockeiro@gmail.com>
 
 ## ENV Variables
@@ -15,33 +15,29 @@ ENV COUNT 1
 ## Do all activities from /build
 WORKDIR /build
 
-# Install git and make
-RUN zypper --non-interactive --no-gpg-checks install --details --no-recommends --force-resolution git make
-
 ## Clear unecessary systemd services
 #ADD scripts/clear-systemd.sh scripts/
-#RUN chmod +x scripts/clear-systemd.sh
-#RUN scripts/clear-systemd.sh
+#RUN chmod +x scripts/clear-systemd.sh && \
+#  scripts/clear-systemd.sh
 
-## Build
+## Build CoprHD-Controller
 ADD scripts/build.sh scripts/
-RUN chmod +x scripts/build.sh
-RUN scripts/build.sh
+RUN chmod +x scripts/build.sh && \
+  scripts/build.sh
 
 ## Install
 ADD scripts/install.sh scripts/
-RUN chmod +x scripts/install.sh
-RUN scripts/install.sh
+RUN chmod +x scripts/install.sh && \
+  scripts/install.sh
 
 ## Script tools
 ADD scripts/netconfig.sh /opt/storageos/bin/netconfig
 RUN chmod +x /opt/storageos/bin/netconfig
+
 ADD scripts/start.sh /opt/storageos/bin/start
 RUN chmod +x /opt/storageos/bin/start
 
-## Clear Build
-ADD scripts/clear.sh scripts/
-RUN chmod +x scripts/clear.sh
-RUN scripts/clear.sh
+## Clear Coprhp-controller Build
+RUN rm -rf coprhd-controller
 
 CMD ["/bin/systemd"]

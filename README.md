@@ -1,30 +1,125 @@
 # Description
 
-The idea behind the creation of this repository is to easily install CoprHD as container.
+The goal of this repository is to:
+
+- Create CoprHDDevkit as docker image with all dependencies.
+
+- Make build of CoprHD-Controller from within a container possible.
+
+- Create CoprHD-Controller docker image(s).
+
+- Make deployment of CoprHD-Controller easy.
+
 
 ## Architecture
 
-Systemd is used inside of containers to start/stop CoprHD services.
+Systemd is used inside of containers to start/stop All-In-One CoprHD-Controller.
 
-*There is no other service started by systemd*
+Usage of docker patterns and best practices.
 
 ## Requirements
 
-- Configuration Variables : IP, NETMASK, GATEWAY, VIP, HOSTNAME, COUNT
+- Configuration Environment Variables : IP, NETMASK, GATEWAY, VIP, HOSTNAME, COUNT
+
+### Containers
+
+- victorock/coprhd:base
+
+- victorock/coprhd:controller
+
+- victorock/coprhd:docker-volume-plugin
 
 ### Howto
 
-1- docker run --net=host -ti --privileged -v /data/coprhd1:/data:rw --name coprhd1 -h coprhd1 -d coprhd-controller:latest
+1- Create CoprHD-Base as Datastore to store persistent Data.
+*Thankfully to docker layers, the usage of disk space is optimized*
 
-2- docker exec -ti coprhd1 /opt/storageos/bin/start
+```
+docker create \
+  -v /data \
+  -h coprhd-base  \
+  -n coprhd-base \
+  -d coprhd:base
+```
 
-### Content and Scripting:
+2- Launch CoprHD Controller with proper environment variables and use volumes from coprhd-datastore to store persistent Data.
+*Thankfully to docker layers, the usage of disk space is optimized*
 
-- Call/Exec /opt/storageos/bin/start to trigger the network configuration and startup of CoprHD services.
+```
+docker run -it \
+  --net=host \
+  --privileged \
+  --volumes-from coprhd-base \
+  -h coprhd-controller1  \
+  -n coprhd-controller1 \
+  -e IP=<ip> \
+  -e NETMASK=<netmask> \
+  -e GATEWAY=<gateway> \
+  -e VIP=<vip> \
+  -e HOSTNAME=coprhd-controller1 \
+  -e COUNT=<nodes> \
+  -d coprhd:controller
+```
+
+3- Trigger /opt/storageos/bin/start to configure network and start CoprHD services.
+
+```
+docker exec -it \
+  coprhd-controller1 \
+  /opt/storageos/bin/start
+```
+
+4- Launch CoprHD Docker Volume Plugin
+
+```
+docker run -it \
+  --net=host \
+  --privileged \
+  --volumes-from coprhd-base \
+  -h coprhd-docker-volume-plugin  \
+  -n coprhd-docker-volume-plugin \
+  -e COPRHD=<ip> \
+  -e USERNAME=<root> \
+  -e PASSWORD=<ChangeMe> \
+  -d coprhd:docker-volume-plugin
+```
+
+5- Configure your Docker host to user CoprHD as Volume Plugin
+
+```
+mkdir -p /etc/docker/plugins
+cat > /etc/docker/plugins/coprhd.json << EOF
+{
+  "Name": "coprhd",
+  "Addr": "http://localhost:8000"
+}
+```
+
+
+### Content:
+
+- base/ Contains the Dockerfile to create CoprHDDevKit baseline as coprhd:base docker image with all dependencies to build CoprHD-Controller.
+
+- controller/ Contains the Dockerfile and scripts to build/install CoprHD as coprhd:controller docker image.
+
+- docker-volume-plugin/ Containers the Dockerfile of experimental Docker Volume Plugin APIs for CoprHD.
+
 
 # Release Notes
 
 - 0.1: Initial Version
+
+# TODO:
+
+- Use Docker network Overlay instead of --net=host
+
+- Decouple CoprHD-Controller services as different containers that can scale separately.
+
+- Make possible the deployment of CoprHD-Controller services through container orchestration:
+
+  1- Docker Compose
+
+  2- Cloud Foundry
 
 # Licensing
 
@@ -34,4 +129,5 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
 # Support
 
-Please file bugs and issues at the Github issues page. For more general discussions you can contact the EMC Code team at <a href="https://groups.google.com/forum/#!forum/emccode-users">Google Groups</a>. The code and documentation are released with no warranties or SLAs and are intended to be supported through a community driven process.
+Please file bugs and issues at the Github issues page. For more general discussions you can contact the Dell EMC Code team.
+The code and documentation are released with no warranties or SLAs and are intended to be supported through a community driven process.
