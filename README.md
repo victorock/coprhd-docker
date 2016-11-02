@@ -39,8 +39,9 @@ docker create \
   -v /data \
   -h coprhd-base  \
   -n coprhd-base \
-  -d coprhd:base
+  -d coprhd-base:latest
 ```
+*Replace latest by tany valable CoprHD version*
 
 2- Launch CoprHD Controller with proper environment variables and use volumes from coprhd-datastore to store persistent Data.
 *Thankfully to docker layers, the usage of disk space is optimized*
@@ -58,8 +59,9 @@ docker run -it \
   -e VIP=<vip> \
   -e HOSTNAME=coprhd-controller1 \
   -e COUNT=<nodes> \
-  -d coprhd:controller
+  -d coprhd-controller:latest
 ```
+*Replace latest by tany valable CoprHD version*
 
 3- Trigger /opt/storageos/bin/start to configure network and start CoprHD services.
 
@@ -81,8 +83,9 @@ docker run -it \
   -e COPRHD=<ip> \
   -e USERNAME=<root> \
   -e PASSWORD=<ChangeMe> \
-  -d coprhd:docker-volume-plugin
+  -d coprhd-docker-volume-plugin:latest
 ```
+*Replace latest by tany valable CoprHD version*
 
 5- Configure your Docker host to user CoprHD as Volume Plugin
 

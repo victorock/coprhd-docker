@@ -1,6 +1,6 @@
 # VERSION               0.1
 #
-# Build CoprHDDevKit: 02NOV2016
+# Build CoprHDDevKit
 FROM opensuse:13.2
 MAINTAINER "Victor da Costa" <victorockeiro@gmail.com>
 
