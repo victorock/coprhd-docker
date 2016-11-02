@@ -23,11 +23,11 @@ Usage of docker patterns and best practices.
 
 ### Containers
 
-- victorock/coprhd:base
+- victorock/coprhd-base
 
-- victorock/coprhd:controller
+- victorock/coprhd-controller
 
-- victorock/coprhd:docker-volume-plugin
+- victorock/coprhd-docker-volume-plugin
 
 ### Howto
 
@@ -111,6 +111,14 @@ cat > /etc/docker/plugins/coprhd.json << EOF
 # Release Notes
 
 - 0.1: Initial Version
+
+# Versioning Howto
+
+- Update VERSION variable in base/Dockerfile
+
+- Update coprhd-base:<version> in controller/Dockerfile
+
+- Update coprhd-base:<version> in docker-volume-plugin/Dockerfile
 
 # TODO:
 
