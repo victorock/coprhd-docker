@@ -4,11 +4,11 @@ The goal of this repository is to:
 
 - Create CoprHDDevkit as docker image with all dependencies.
 
-- Make build of CoprHD-Controller from within a container possible.
+- Make possible the build of CoprHD-Controller services inside a container.
 
-- Create CoprHD-Controller docker image(s).
+- Create CoprHD-Controller as docker image(s).
 
-- Make deployment of CoprHD-Controller easy.
+- Make the deployment of CoprHD-Controller easy.
 
 
 ## Architecture
