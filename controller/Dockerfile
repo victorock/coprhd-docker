@@ -1,7 +1,7 @@
 # VERSION               0.1
 #
 # Build CoprHD-Controller
-FROM victorock/coprhd-base:3.5
+FROM victorock/coprhd-base:latest
 MAINTAINER "Victor da Costa" <victorockeiro@gmail.com>
 
 ## ENV Variables
