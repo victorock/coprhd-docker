@@ -96,6 +96,7 @@ cat > /etc/docker/plugins/coprhd.json << EOF
   "Name": "coprhd",
   "Addr": "http://localhost:8000"
 }
+EOF
 ```
 
 
