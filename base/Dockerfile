@@ -4,7 +4,7 @@
 FROM opensuse:13.2
 MAINTAINER "Victor da Costa" <victorockeiro@gmail.com>
 
-ENV VERSION master
+ENV VERSION release-3.5
 
 WORKDIR /build
 RUN zypper --non-interactive --no-gpg-checks install --details --no-recommends --force-resolution git make
