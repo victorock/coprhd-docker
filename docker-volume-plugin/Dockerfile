@@ -13,6 +13,9 @@ ENV PATH=$PATH:/opt/storageos/davenport
 ## Do all activities from /build
 WORKDIR /build
 
+## Install Python and deps
+RUN zypper --non-interactive --no-gpg-checks install --details --force-resolution python-devel python-pip
+
 ## Clone coprhd-controller and checkout docker-volume-plugin
 RUN git clone -b feature-davenport-the-docker-volume-plugin-max https://github.com/CoprHD/coprhd-controller.git && \
   pip install -r coprhd-controller/tools/davenport/requirements.txt && \
