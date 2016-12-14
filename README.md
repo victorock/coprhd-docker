@@ -63,12 +63,12 @@ docker run -it \
 ```
 *Replace latest by any valable CoprHD version*
 
-3- Trigger /opt/storageos/bin/start to configure network and start CoprHD services.
+3- Trigger /scripts/setup to setup network and start CoprHD services.
 
 ```
 docker exec -it \
   coprhd-controller1 \
-  /opt/storageos/bin/start
+  /scripts/setup
 ```
 
 4- Launch CoprHD Docker Volume Plugin
@@ -112,6 +112,8 @@ EOF
 # Release Notes
 
 - 0.1: Initial Version
+- 0.2: Download configure scripts instead of entire repository.
+- 0.2: Normalization with : Build -> Install -> Configure (User Exec)
 
 # Versioning Howto
 

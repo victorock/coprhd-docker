@@ -1,0 +1,27 @@
+#!/bin/bash
+## Create file to make sure that services will start
+echo > /var/run/storageos/bootmode_normal
+
+#create config file
+cat > /etc/ovfenv.properties << EOF
+network_1_ipaddr6=::0
+network_1_ipaddr=${IP}
+network_gateway6=::0
+network_gateway=${GATEWAY}
+network_netmask=${NETMASK}
+network_prefix_length=64
+network_vip6=::0
+network_vip=${VIP}
+node_count=${COUNT}
+node_id=${HOSTNAME}
+EOF
+
+## Make sure that permissions are fine
+getent group storageos || groupadd -g 444 storageos
+getent passwd storageos || useradd -r -d /opt/storageos -c "StorageOS" -g 444 -u 444 -s /bin/bash storageos
+[ ! -d /opt/storageos ] || chown -R storageos:storageos /opt/storageos
+[ ! -d /data ] || chown -R storageos:storageos /data
+
+## Enable the StorageOS
+/etc/storageos/storageos enable
+/etc/storageos/storageos start

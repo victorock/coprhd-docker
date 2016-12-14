@@ -1,4 +1,4 @@
-# VERSION               0.1
+# VERSION               0.2
 #
 # Build CoprHD-Controller
 FROM victorock/coprhd-base:latest
@@ -12,32 +12,14 @@ ENV VIP 172.17.0.2
 ENV HOSTNAME vipr1
 ENV COUNT 1
 
-## Do all activities from /build
-WORKDIR /build
+## Add Scripts
+COPY scripts /scripts
 
-## Clear unecessary systemd services
-#ADD scripts/clear-systemd.sh scripts/
-#RUN chmod +x scripts/clear-systemd.sh && \
-#  scripts/clear-systemd.sh
+## Build && Install
+RUN chmod +x /scripts/* && \
+  /scripts/build && \
+  /scripts/install
 
-## Build CoprHD-Controller
-ADD scripts/build.sh scripts/
-RUN chmod +x scripts/build.sh && \
-  scripts/build.sh
+#RUN  rm -rf coprhd-controller
 
-## Install
-ADD scripts/install.sh scripts/
-RUN chmod +x scripts/install.sh && \
-  scripts/install.sh
-
-## Script tools
-ADD scripts/netconfig.sh /opt/storageos/bin/netconfig
-RUN chmod +x /opt/storageos/bin/netconfig
-
-ADD scripts/start.sh /opt/storageos/bin/start
-RUN chmod +x /opt/storageos/bin/start
-
-## Clear Coprhp-controller Build
-RUN rm -rf coprhd-controller
-
-CMD ["/bin/systemd"]
+VOLUME /data
